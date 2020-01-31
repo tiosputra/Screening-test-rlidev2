@@ -20,6 +20,32 @@ router.get("/", async (req, res) => {
 });
 
 /**
+ * GET /api/products/:code
+ * get single product with code
+ */
+router.get("/:code", [param("code")], async (req, res) => {
+  try {
+    // check validation errors, if any return 422
+    const errors = validationResult(req);
+    if (!errors.isEmpty())
+      return res.status(422).json({ error: errors.array() });
+
+    const { code } = req.params;
+
+    // check if product with the given code exists
+    let product = await Product.findOne({ where: { code: code } });
+    if (!product)
+      return res
+        .status(404)
+        .json({ success: false, message: "No product with the given code" });
+
+    res.status(200).json({ success: true, data: product });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+/**
  * POST /api/products
  * create new product
  */
@@ -70,15 +96,12 @@ router.post(
 );
 
 /**
- * PUT /api/products/:id
+ * PUT /api/products/:code
  * update product by code
  */
 router.put(
   "/:code",
   [
-    check("code")
-      .isLength({ min: 5 })
-      .isString(),
     check("name").isString(),
     check("price")
       .isNumeric()
