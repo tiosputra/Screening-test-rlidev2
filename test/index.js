@@ -1,1 +1,3 @@
-after(done => {});
+after(done => {
+  done();
+});

@@ -9,7 +9,7 @@ chai.use(chaiHttp);
 
 const server = require("../index");
 
-describe("Product API Testing", function() {
+describe("Product API Testing", () => {
   describe("/GET products", () => {
     it("it should GET all products", done => {
       chai
@@ -17,8 +17,8 @@ describe("Product API Testing", function() {
         .get("/products")
         .end((err, res) => {
           expect(res).to.have.status(200);
-          expect(res.body).to.be.json;
-          expect(res.body.length).be.equal(0);
+          expect(res.body.success).to.equal(true);
+          expect(res.body.data.length).be.equal(0);
 
           done();
         });
@@ -82,7 +82,6 @@ describe("Product API Testing", function() {
         .send(product)
         .end((err, res) => {
           expect(res).to.have.status(409);
-          expect(res.body).to.have.property("data");
           expect(res.body.success).to.equal(false);
           expect(res.body.error).to.equal("Product code already exists");
 
@@ -92,25 +91,28 @@ describe("Product API Testing", function() {
   });
 
   describe("/PUT product", done => {
+    let product = {
+      code: "TS002",
+      name: "Mouse SLEC",
+      price: 80000,
+      stock: 75
+    };
+
     before(function() {
       // create dummy content for testing update
-      Product.create({
-        code: "TS002",
-        name: "Mouse SLEC",
-        price: 80000,
-        stock: 75
-      });
+      Product.create(product);
     });
 
     it("it should not update product without complete parameter", done => {
-      let product = {
+      let updateProduct = {
         name: "Mouse SLEC wireless",
         price: 89000
       };
 
       chai
         .request(server)
-        .send(product)
+        .put(`/products/${product.code}`)
+        .send(updateProduct)
         .end((err, res) => {
           expect(res).to.have.status(422);
           expect(res.body).to.have.property("error");
@@ -120,7 +122,7 @@ describe("Product API Testing", function() {
     });
 
     it("it should update product", done => {
-      let product = {
+      let updateProduct = {
         name: "Mouse SLEC wireless",
         price: 89000,
         stock: 20
@@ -128,14 +130,15 @@ describe("Product API Testing", function() {
 
       chai
         .request(server)
-        .send(product)
+        .put(`/products/${product.code}`)
+        .send(updateProduct)
         .end((err, res) => {
           expect(res).to.have.status(200);
           expect(res.body).to.have.property("data");
           expect(res.body.data).to.be.an("object");
-          expect(res.body.data.name).to.equal(product.name);
-          expect(res.body.data.price).to.equal(product.price);
-          expect(res.body.data.stock).to.equal(product.stock);
+          expect(res.body.data.name).to.equal(updateProduct.name);
+          expect(res.body.data.price).to.equal(updateProduct.price);
+          expect(res.body.data.stock).to.equal(updateProduct.stock);
 
           done();
         });
@@ -143,14 +146,46 @@ describe("Product API Testing", function() {
   });
 
   describe("/DELETE product", done => {
+    let product = {
+      code: "TS004",
+      name: "Mousepad Razer",
+      price: 80000,
+      stock: 75
+    };
+
     before(function() {
       // create dummy content for testing delete api
-      Product.create({
-        code: "TS004",
-        name: "Mousepad Razer",
-        price: 80000,
-        stock: 75
-      });
+      Product.create(product);
+    });
+
+    it("it should not delete product with invalid code", done => {
+      chai
+        .request(server)
+        .delete("/products/BR9999")
+        .end((err, res) => {
+          expect(res).to.have.status(404);
+          expect(res.body.success).to.equal(false);
+          expect(res.body.message).to.equal("No product with the given code");
+
+          done();
+        });
+    });
+
+    it("it should delete product", done => {
+      chai
+        .request(server)
+        .delete(`/products/${product.code}`)
+        .end((err, res) => {
+          expect(res).to.have.status(200);
+          expect(res.body).to.have.property("success");
+          expect(res.body).to.have.property("data");
+          expect(res.body.data.code).to.equal(product.code);
+          expect(res.body.data.name).to.equal(product.name);
+          expect(res.body.data.price).to.equal(product.price);
+          expect(res.body.data.stock).to.equal(product.stock);
+
+          done();
+        });
     });
   });
 });

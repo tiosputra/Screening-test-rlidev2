@@ -6,7 +6,8 @@
     "start": "node index.js",
     "dev": "nodemon index.js",
     "pretest": "cross-env NODE_ENV=test sequelize db:migrate",
-    "test": "mocha"
+    "test": "mocha",
+    "posttest": "cross-env NODE_ENV=test sequelize db:migrate:undo:all"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
