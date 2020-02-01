@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": { "title": "Project for screening test RLIDev2", "version": "1.0.0" },
-  "host": "localhost:8080",
+  "host": "localhost",
   "basePath": "/api/v1",
   "securityDefinitions": {
     "Bearer": { "type": "apiKey", "name": "Authorization", "in": "header" }

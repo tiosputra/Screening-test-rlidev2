@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const passport = require("passport");
+const cors = require("cors");
 const swaggerUI = require("swagger-ui-express");
 const swaggerDocument = require("./config/swagger.json");
 const swaggerSpec = require("./config/swaggerSpec");
@@ -13,6 +14,7 @@ const PORT = process.env.PORT || 5000;
 require("./config/passport")(passport);
 
 // app middleware
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(passport.initialize());
