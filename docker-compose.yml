@@ -2,7 +2,9 @@ version: "3"
 services:
   app:
     build: ./api-service
+    container_name: tioapp
     image: rliapp
+    restart: always
     volumes:
       - ./api-service:/usr/src/app
     ports:
@@ -20,7 +22,7 @@ services:
 
   webserver:
     image: nginx:mainline-alpine
-    container_name: webserver
+    container_name: tiowebserver
     restart: unless-stopped
     ports:
       - "80:80"

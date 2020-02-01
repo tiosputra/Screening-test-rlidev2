@@ -8,7 +8,7 @@ const swaggerSpec = require("./config/swaggerSpec");
 
 const app = express();
 
-const PORT = process.env.PORT || 5000;
+let PORT = process.env.PORT || 5000;
 
 // load passport configuration
 require("./config/passport")(passport);
@@ -26,6 +26,7 @@ app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 app.use("/api/v1/", require("./routes"));
 app.use("/api/v1/users", require("./routes/users"));
 app.use("/api/v1/products", require("./routes/products"));
+app.use("/api/v1/orders", require("./routes/orders"));
 
 // get swagger generated json
 app.get("/api-docs.json", (req, res) => {
@@ -33,6 +34,7 @@ app.get("/api-docs.json", (req, res) => {
   res.send(swaggerSpec);
 });
 
+if (process.env.NODE_ENV === "test") PORT = 5001;
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
 
 module.exports = app;
