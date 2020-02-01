@@ -1,0 +1,20 @@
+version: "3"
+services:
+  app:
+    build: ./api-service
+    image: rliapp
+    volumes:
+      - ./api-service:/usr/src/app
+    ports:
+      - 8080:5000
+    depends_on:
+      - db
+    environment:
+      WAIT_HOSTS: db:3306
+
+  db:
+    build: ./db-service
+    restart: always
+
+  webserver:
+    build: ./nginx-service

@@ -1,0 +1,6 @@
+mysql -uroot -ppassword <<MY_QUERY
+CREATE DATABASE IF NOT EXISTS rli_dev;
+CREATE DATABASE IF NOT EXISTS rli_test;
+
+GRANT ALL PRIVILEGES on *.* TO 'user'@'%' IDENTIFIED BY 'password' WITH GRANT OPTION;
+MY_QUERY

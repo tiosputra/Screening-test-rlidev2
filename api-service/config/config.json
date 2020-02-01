@@ -1,27 +1,24 @@
 {
   "development": {
-    "username": "tio",
+    "username": "root",
     "password": "password",
     "database": "rli_dev",
-    "host": "127.0.0.1",
-    "dialect": "mysql",
-    "operatorsAliases": false
+    "host": "db",
+    "dialect": "mysql"
   },
   "test": {
-    "username": "tio",
+    "username": "root",
     "password": "password",
     "database": "rli_test",
-    "host": "127.0.0.1",
+    "host": "db",
     "dialect": "mysql",
-    "operatorsAliases": false,
     "logging": false
   },
   "production": {
-    "username": "tio",
+    "username": "root",
     "password": "password",
     "database": "rli_production",
-    "host": "127.0.0.1",
-    "dialect": "mysql",
-    "operatorsAliases": false
+    "host": "db",
+    "dialect": "mysql"
   }
 }
