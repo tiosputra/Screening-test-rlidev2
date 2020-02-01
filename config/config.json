@@ -1,23 +1,23 @@
 {
   "development": {
-    "username": "root",
-    "password": null,
+    "username": "tio",
+    "password": "password",
     "database": "rli_dev",
     "host": "127.0.0.1",
     "dialect": "mysql",
     "operatorsAliases": false
   },
   "test": {
-    "username": "root",
-    "password": null,
+    "username": "tio",
+    "password": "password",
     "database": "rli_test",
     "host": "127.0.0.1",
     "dialect": "mysql",
     "operatorsAliases": false
   },
   "production": {
-    "username": "root",
-    "password": null,
+    "username": "tio",
+    "password": "password",
     "database": "rli_production",
     "host": "127.0.0.1",
     "dialect": "mysql",
