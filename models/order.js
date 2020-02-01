@@ -5,7 +5,9 @@ module.exports = (sequelize, DataTypes) => {
     {
       userId: DataTypes.INTEGER
     },
-    {}
+    {
+      tableName: "order"
+    }
   );
   Order.associate = function(models) {
     Order.belongsTo(models.User);

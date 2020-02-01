@@ -23,7 +23,7 @@ exports.userLogin = async (req, res) => {
         .json({ success: false, message: "Wrong password" });
 
     // generate access token
-    const token = jwt.sign({ email: user.email }, "secret");
+    const token = jwt.sign({ id: user.id }, "secret");
 
     // return with 200 status code with token
     res.status(200).json({ message: "success", accessToken: token });
@@ -34,16 +34,11 @@ exports.userLogin = async (req, res) => {
 
 exports.userRegister = async (req, res) => {
   try {
-    // check validation errors, if any return 422
-    const errors = validationResult(req);
-    if (!errors.isEmpty())
-      return res.status(422).json({ success: false, error: errors.array() });
-
     // get data
     const { email, name, password } = req.body;
 
     // check if email already exists
-    const findUser = await User.findOne({ email: email });
+    const findUser = await User.findOne({ where: { email: email } });
     if (findUser)
       return res
         .status(409)
@@ -61,7 +56,7 @@ exports.userRegister = async (req, res) => {
     });
 
     // generate access token
-    const token = jwt.sign({ email: user.email }, "secret");
+    const token = jwt.sign({ id: user.id }, "secret");
 
     // return 200 successful
     res.status(200).json({

@@ -4,21 +4,13 @@ const { check, param, validationResult } = require("express-validator");
  * Validation middleware
  */
 exports.validate = (req, res, next) => {
-  // get validation errors
+  // check validation errors, if any return 422
   const errors = validationResult(req);
+  if (!errors.isEmpty())
+    return res.status(422).json({ success: false, error: errors.array() });
 
-  // if errors is none go to function
-  if (!errors.isEmpty()) next();
-
-  const extractedErrors = [];
-
-  // extract error for readability
-  errors.array().map(err => extractedErrors.push({ [err.param]: err.msg }));
-
-  // return 422 status code with error
-  return res.status(422).json({
-    errors: extractedErrors
-  });
+  // if error not found go to next function
+  next();
 };
 
 // Users API Validation Rules

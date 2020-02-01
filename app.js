@@ -12,6 +12,7 @@ require("./config/passport")(passport);
 // app middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(passport.initialize());
 
 // swagger routes
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));

@@ -11,12 +11,12 @@ opts.secretOrKey = "secret";
 module.exports = passport => {
   passport.use(
     new JwtStrategy(opts, function(jwt_payload, done) {
-      User.findOne({ email: jwt_payload.email })
+      User.findOne({ where: { id: jwt_payload.id } })
         .then(user => {
-          if (user) {
-            return done(null, user);
-          } else {
+          if (!user) {
             return done(null, false);
+          } else {
+            return done(null, user);
           }
         })
         .catch(error => {
@@ -24,4 +24,12 @@ module.exports = passport => {
         });
     })
   );
+
+  passport.serializeUser(function(user, done) {
+    done(null, user);
+  });
+
+  passport.deserializeUser(function(user, done) {
+    done(null, user);
+  });
 };

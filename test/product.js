@@ -9,12 +9,42 @@ chai.use(chaiHttp);
 
 const server = require("../index");
 
+let accessToken = "";
+
 describe("Product API Testing", () => {
+  before(done => {
+    let user = {
+      email: "tiosaputraproduct@gmail.com",
+      name: "tio product",
+      password: "password"
+    };
+
+    chai
+      .request(server)
+      .post("/api/v1/users/register")
+      .send(user)
+      .end((err, res) => {
+        expect(res).to.have.status(200);
+        expect(res.body).to.have.property("success");
+        expect(res.body.data).to.have.property("accessToken");
+        expect(res.body.data).to.have.property("name");
+        expect(res.body.data).to.have.property("email");
+        expect(res.body.success).to.equal(true);
+        expect(res.body.data.email).to.equal(user.email);
+        expect(res.body.data.name).to.equal(user.name);
+
+        accessToken = res.body.data.accessToken;
+
+        done();
+      });
+  });
+
   describe("/GET products", () => {
     it("it should GET all products", done => {
       chai
         .request(server)
-        .get("/products")
+        .get("/api/v1/products")
+        .set("Authorization", `Bearer ${accessToken}`)
         .end((err, res) => {
           expect(res).to.have.status(200);
           expect(res.body.success).to.equal(true);
@@ -34,8 +64,9 @@ describe("Product API Testing", () => {
 
       chai
         .request(server)
-        .post("/products")
+        .post("/api/v1/products")
         .send(product)
+        .set("Authorization", `Bearer ${accessToken}`)
         .end((err, res) => {
           expect(res).to.have.status(422);
           expect(res.body).to.have.property("error");
@@ -54,8 +85,9 @@ describe("Product API Testing", () => {
 
       chai
         .request(server)
-        .post("/products")
+        .post("/api/v1/products")
         .send(product)
+        .set("Authorization", `Bearer ${accessToken}`)
         .end((err, res) => {
           expect(res).to.have.status(200);
           expect(res.body).to.have.property("data");
@@ -78,8 +110,9 @@ describe("Product API Testing", () => {
 
       chai
         .request(server)
-        .post("/products")
+        .post("/api/v1/products")
         .send(product)
+        .set("Authorization", `Bearer ${accessToken}`)
         .end((err, res) => {
           expect(res).to.have.status(409);
           expect(res.body.success).to.equal(false);
@@ -111,8 +144,9 @@ describe("Product API Testing", () => {
 
       chai
         .request(server)
-        .put(`/products/${product.code}`)
+        .put(`/api/v1/products/${product.code}`)
         .send(updateProduct)
+        .set("Authorization", `Bearer ${accessToken}`)
         .end((err, res) => {
           expect(res).to.have.status(422);
           expect(res.body).to.have.property("error");
@@ -130,8 +164,9 @@ describe("Product API Testing", () => {
 
       chai
         .request(server)
-        .put(`/products/${product.code}`)
+        .put(`/api/v1/products/${product.code}`)
         .send(updateProduct)
+        .set("Authorization", `Bearer ${accessToken}`)
         .end((err, res) => {
           expect(res).to.have.status(200);
           expect(res.body).to.have.property("data");
@@ -161,7 +196,8 @@ describe("Product API Testing", () => {
     it("it should not delete product with invalid code", done => {
       chai
         .request(server)
-        .delete("/products/BR9999")
+        .delete("/api/v1/products/BR9999")
+        .set("Authorization", `Bearer ${accessToken}`)
         .end((err, res) => {
           expect(res).to.have.status(404);
           expect(res.body.success).to.equal(false);
@@ -174,7 +210,8 @@ describe("Product API Testing", () => {
     it("it should delete product", done => {
       chai
         .request(server)
-        .delete(`/products/${product.code}`)
+        .delete(`/api/v1/products/${product.code}`)
+        .set("Authorization", `Bearer ${accessToken}`)
         .end((err, res) => {
           expect(res).to.have.status(200);
           expect(res.body).to.have.property("success");

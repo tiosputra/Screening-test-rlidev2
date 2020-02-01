@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const passport = require("passport");
 const {
   validate,
   productCreateValidationRules,
@@ -17,30 +18,42 @@ const {
  * GET /api/v1/products
  * @desc get all products
  */
-router.get("/", getAllProduct);
+router.get("/", passport.authenticate("jwt"), getAllProduct);
 
 /**
  * GET /api/v1/products/:code
  * @desc get single product with code
  */
-router.get("/:code", getProductByCode);
+router.get("/:code", passport.authenticate("jwt"), getProductByCode);
 
 /**
  * POST /api/v1/products
  * @desc create new product
  */
-router.post("/", productCreateValidationRules(), validate, createProduct);
+router.post(
+  "/",
+  passport.authenticate("jwt"),
+  productCreateValidationRules(),
+  validate,
+  createProduct
+);
 
 /**
  * PUT /api/v1/products/:code
  * @desc update product by code
  */
-router.put("/:code", productUpdateValidationRules(), validate, updateProduct);
+router.put(
+  "/:code",
+  passport.authenticate("jwt"),
+  productUpdateValidationRules(),
+  validate,
+  updateProduct
+);
 
 /**
  * DELETE /api/v1/products/:code
  * @desc delete product by code
  */
-router.delete("/:code", deleteProduct);
+router.delete("/:code", passport.authenticate("jwt"), deleteProduct);
 
 module.exports = router;

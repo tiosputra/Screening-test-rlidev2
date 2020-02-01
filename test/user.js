@@ -18,7 +18,7 @@ describe("User API", () => {
 
       chai
         .request(server)
-        .post("/users/register")
+        .post("/api/v1/users/register")
         .send(user)
         .end((err, res) => {
           expect(res).to.have.status(422);
@@ -40,7 +40,7 @@ describe("User API", () => {
 
       chai
         .request(server)
-        .post("/users/register")
+        .post("/api/v1/users/register")
         .send(user)
         .end((err, res) => {
           expect(res).to.have.status(200);
@@ -65,7 +65,7 @@ describe("User API", () => {
 
       chai
         .request(server)
-        .post("/users/register")
+        .post("/api/v1/users/register")
         .send(user)
         .end((err, res) => {
           expect(res).to.have.status(409);
@@ -97,7 +97,7 @@ describe("User API", () => {
 
       chai
         .request(server)
-        .post("/users/login")
+        .post("/api/v1/users/login")
         .send(credential)
         .end((err, res) => {
           expect(res).to.have.status(422);
@@ -115,7 +115,7 @@ describe("User API", () => {
 
       chai
         .request(server)
-        .post("/users/login")
+        .post("/api/v1/users/login")
         .send(credential)
         .end((err, res) => {
           expect(res).to.have.status(404);
@@ -136,7 +136,7 @@ describe("User API", () => {
 
       chai
         .request(server)
-        .post("/users/login")
+        .post("/api/v1/users/login")
         .send(credential)
         .end((err, res) => {
           expect(res).to.have.status(401);
@@ -156,7 +156,7 @@ describe("User API", () => {
 
       chai
         .request(server)
-        .post("/users/login")
+        .post("/api/v1/users/login")
         .send(credential)
         .end((err, res) => {
           expect(res).to.have.status(200);

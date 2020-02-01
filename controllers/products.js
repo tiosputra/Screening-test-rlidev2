@@ -20,13 +20,6 @@ exports.getAllProduct = async (req, res) => {
 
 exports.getProductByCode = async (req, res) => {
   try {
-    // check validation errors, if any return 422
-    const errors = validationResult(req);
-    if (!errors.isEmpty())
-      return res.status(422).json({
-        error: errors.array()
-      });
-
     const { code } = req.params;
 
     // check if product with the given code exists
@@ -91,13 +84,6 @@ exports.createProduct = async (req, res) => {
 
 exports.updateProduct = async (req, res) => {
   try {
-    // check validation errors, if any return 422
-    const errors = validationResult(req);
-    if (!errors.isEmpty())
-      return res.status(422).json({
-        error: errors.array()
-      });
-
     const { code } = req.params;
     const { name, price, stock } = req.body;
 
@@ -134,13 +120,6 @@ exports.updateProduct = async (req, res) => {
 
 exports.deleteProduct = async (req, res) => {
   try {
-    // check validation errors, if any return 422
-    const errors = validationResult(req);
-    if (!errors.isEmpty())
-      return res.status(422).json({
-        error: errors.array()
-      });
-
     const { code } = req.params;
 
     // check if product with the given code exists
