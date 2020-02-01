@@ -7,6 +7,7 @@ services:
     restart: always
     volumes:
       - ./api-service:/usr/src/app
+      - /usr/src/app/node_modules
     ports:
       - 8080:5000
     expose:
@@ -29,6 +30,6 @@ services:
     expose:
       - 80
     volumes:
-      - ./nginx-conf:/etc/nginx/conf.d
+      - ./nginx-conf/:/etc/nginx/conf.d/
     depends_on:
       - app
