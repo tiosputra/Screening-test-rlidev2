@@ -2,6 +2,36 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const { User } = require("../models");
 
+/**
+ * @swagger
+ *
+ * /users/login:
+ *   post:
+ *     summary: Login
+ *     tags:
+ *       - Authentication
+ *     description: Login to get access token
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: credentials
+ *         description: email and password
+ *         in: body
+ *         required: true
+ *         schema:
+ *           properties:
+ *             email:
+ *               type: string
+ *               required: true
+ *               example: jhondoe@gmail.com
+ *             password:
+ *               type: string
+ *               required: true
+ *               example: passwordku
+ *     responses:
+ *       200:
+ *         description: login
+ */
 exports.userLogin = async (req, res) => {
   try {
     // get data from request body
@@ -32,6 +62,41 @@ exports.userLogin = async (req, res) => {
   }
 };
 
+/**
+ * @swagger
+ *
+ * /users/register:
+ *   post:
+ *     summary: Register
+ *     tags:
+ *       - Authentication
+ *     description: Register a user and get access token
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: credentials
+ *         description: email, name, and password
+ *         in: body
+ *         required: true
+ *         type: string
+ *         schema:
+ *           properties:
+ *             email:
+ *               type: string
+ *               required: true
+ *               example: jhondoe@gmail.com
+ *             name:
+ *               type: string
+ *               required: true
+ *               example: jhon doe
+ *             password:
+ *               type: string
+ *               required: true
+ *               example: passwordku
+ *     responses:
+ *       200:
+ *         description: register
+ */
 exports.userRegister = async (req, res) => {
   try {
     // get data

@@ -7,7 +7,7 @@ const { Product } = require("../models");
 
 chai.use(chaiHttp);
 
-const server = require("../index");
+const server = require("../app");
 
 let accessToken = "";
 
@@ -39,6 +39,10 @@ describe("Product API Testing", () => {
       });
   });
 
+  /**
+   * Test for get all products
+   *  - get all products
+   */
   describe("/GET products", () => {
     it("it should GET all products", done => {
       chai
@@ -55,6 +59,61 @@ describe("Product API Testing", () => {
     });
   });
 
+  /**
+   * Test for get single product
+   *  - get product with invalid code
+   *  - get product with valid code
+   */
+  describe("/GET products/{code}", () => {
+    let product = {
+      code: "TS005",
+      name: "Monitor LG",
+      price: 1000000,
+      stock: 10
+    };
+    before(function() {
+      // create dummy content for testing get
+      Product.create(product);
+    });
+
+    it("it should not get product with invalid code", done => {
+      chai
+        .request(server)
+        .get("/api/v1/products/BR9999")
+        .set("Authorization", `Bearer ${accessToken}`)
+        .end((err, res) => {
+          expect(res).to.have.status(404);
+          expect(res.body.success).to.equal(false);
+          expect(res.body.message).to.equal("No product with the given code");
+
+          done();
+        });
+    });
+
+    it("it should get product with valid code", done => {
+      chai
+        .request(server)
+        .get(`/api/v1/products/${product.code}`)
+        .set("Authorization", `Bearer ${accessToken}`)
+        .end((err, res) => {
+          expect(res).to.have.status(200);
+          expect(res.body).to.have.property("data");
+          expect(res.body.data).to.be.an("object");
+          expect(res.body.data.name).to.equal(product.name);
+          expect(res.body.data.price).to.equal(product.price);
+          expect(res.body.data.stock).to.equal(product.stock);
+
+          done();
+        });
+    });
+  });
+
+  /**
+   * Test for creating prodcts
+   *  - create product with incomple parameter
+   *  - create product with valid parameter
+   *  - create product with code that already exists
+   */
   describe("/POST products", () => {
     it("it should not create product without complete parameters", done => {
       let product = {
@@ -123,7 +182,13 @@ describe("Product API Testing", () => {
     });
   });
 
-  describe("/PUT product", done => {
+  /**
+   * TEST for update product
+   *  - update product with invalid code
+   *  - update product with incomplete parameter
+   *  - update product with complete parameter
+   */
+  describe("/PUT product/{code}", done => {
     let product = {
       code: "TS002",
       name: "Mouse SLEC",
@@ -134,6 +199,27 @@ describe("Product API Testing", () => {
     before(function() {
       // create dummy content for testing update
       Product.create(product);
+    });
+
+    it("it should not update product with invalid code", done => {
+      let updateProduct = {
+        name: "Mouse SLEC wireless",
+        price: 89000,
+        stock: 20
+      };
+
+      chai
+        .request(server)
+        .put("/api/v1/products/BR9999")
+        .send(updateProduct)
+        .set("Authorization", `Bearer ${accessToken}`)
+        .end((err, res) => {
+          expect(res).to.have.status(404);
+          expect(res.body.success).to.equal(false);
+          expect(res.body.message).to.equal("No product with the given code");
+
+          done();
+        });
     });
 
     it("it should not update product without complete parameter", done => {
@@ -180,7 +266,12 @@ describe("Product API Testing", () => {
     });
   });
 
-  describe("/DELETE product", done => {
+  /**
+   * TEST for delete product
+   *  - delete product with invalid code
+   *  - delete product with valid code
+   */
+  describe("/DELETE product/{code}", done => {
     let product = {
       code: "TS004",
       name: "Mousepad Razer",
