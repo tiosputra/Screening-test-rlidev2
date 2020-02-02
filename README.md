@@ -3,9 +3,8 @@
 ## Starting application
 
 To start the application run this command in your shell : **sudo docker-compose up**
-
-wait for the application to run, wait until u see "Application running" message pop
-then visit localhost:81
+The application will do migration automaticaly.
+wait for the application to run, wait until u see "Application running" message pop then visit localhost:81
 
 ## Documentation
 
