@@ -1,8 +1,36 @@
 const express = require("express");
+const passport = require("passport");
+const orderController = require("../controllers/orders");
+
 const router = express.Router();
 
-const { getOrderById } = require("../controllers/orders");
+/**
+ * GET /api/v1/orders
+ * @desc get all orders
+ */
+router.get("/", passport.authenticate("jwt"), orderController.getAllOrders);
 
-router.get("/:id", getOrderById);
+/**
+ * GET /api/v1/orders/:id
+ * @desc get order data by id
+ */
+router.get("/:id", passport.authenticate("jwt"), orderController.getOrderById);
+
+/**
+ * POST /api/v1/orders
+ * @desc create order data, note that we will use userId in jwt for filling the
+ * user id foreign key
+ */
+router.post("/", passport.authenticate("jwt"), orderController.createOrder);
+
+/**
+ * Delete /api/v1/orders/:id
+ * @desc delete orders by id. if this order has order_product, those will also deleted
+ */
+router.delete(
+  "/:id",
+  passport.authenticate("jwt"),
+  orderController.deleteOrder
+);
 
 module.exports = router;

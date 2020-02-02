@@ -11,12 +11,174 @@
       "name": "Authentication",
       "description": "API login and register user, here you can get the access token needed"
     },
-    {
-      "name": "Products",
-      "description": " API to perform CRUD operation on product"
-    }
+    { "name": "Products", "description": "API for Products" },
+    { "name": "Orders", "description": "API for Orders" },
+    { "name": "ProductOrder", "description": "API for ProductOrder" }
   ],
   "paths": {
+    "/orders": {
+      "get": {
+        "summary": "get all order",
+        "tags": ["Orders"],
+        "description": "THIS IS DEVELOPMENT PURPOSE ONLY, IN THE FUTURE ONLY ADMIN CAN ACCESS THIS ENDPOING",
+        "produces": ["application/json"],
+        "security": [{ "Bearer": [] }],
+        "responses": { "200": { "desription": "OK" } }
+      },
+      "post": {
+        "tags": ["Orders"],
+        "summary": "Create order",
+        "description": "create order for container product order",
+        "produces": ["application/json"],
+        "security": [{ "Bearer": [] }],
+        "responses": { "200": { "desription": "OK" } }
+      }
+    },
+    "/orders/{id}": {
+      "get": {
+        "summary": "get order by id",
+        "tags": ["Orders"],
+        "description": "get order data by id",
+        "produces": ["application/json"],
+        "security": [{ "Bearer": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "id of order you want to find"
+          }
+        ],
+        "responses": { "200": { "desription": "OK" } }
+      },
+      "delete": {
+        "summary": "Delete order with id",
+        "tags": ["Orders"],
+        "produces": "application/json",
+        "security": [{ "Bearer": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "integer",
+            "required": true,
+            "description": "id you want to delete"
+          }
+        ],
+        "responses": { "200": { "desription": "OK" } }
+      }
+    },
+    "/orders/{orderId}/products/{productOrderId}": {
+      "get": {
+        "summary": "get individual product_order",
+        "tags": ["ProductOrder"],
+        "produces": ["application/json"],
+        "security": [{ "Bearer": [] }],
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "id for order resource"
+          },
+          {
+            "name": "productOrderId",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "id for product_order resource"
+          }
+        ],
+        "responses": { "200": { "description": "OK" } }
+      },
+      "put": {
+        "summary": "update product_order",
+        "tags": ["ProductOrder"],
+        "produces": ["application/json"],
+        "security": [{ "Bearer": [] }],
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "id for order resource"
+          },
+          {
+            "name": "productOrderId",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "id for product_order resource"
+          },
+          {
+            "name": "product order data for update",
+            "in": "body",
+            "required": true,
+            "type": "integer",
+            "schema": {
+              "properties": { "quantity": { "type": "integer", "example": 10 } }
+            }
+          }
+        ],
+        "responses": { "200": { "description": "OK" } }
+      },
+      "delete": {
+        "summary": "delete product_order",
+        "tags": ["ProductOrder"],
+        "produces": ["application/json"],
+        "security": [{ "Bearer": [] }],
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "id for order resource"
+          },
+          {
+            "name": "productOrderId",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "id for product_order resource"
+          }
+        ],
+        "responses": { "200": { "description": "OK" } }
+      }
+    },
+    "/orders/{orderId}/products": {
+      "post": {
+        "summary": "create product_order",
+        "tags": ["ProductOrder"],
+        "produces": ["application/json"],
+        "security": [{ "Bearer": [] }],
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "id for order resource"
+          },
+          {
+            "name": "new product order data",
+            "in": "body",
+            "required": true,
+            "type": "integer",
+            "schema": {
+              "properties": {
+                "productId": { "type": "integer", "example": 2 },
+                "quantity": { "type": "integer", "example": 4 }
+              }
+            }
+          }
+        ],
+        "responses": { "200": { "description": "OK" } }
+      }
+    },
     "/products": {
       "get": {
         "summary": "Get all product",

@@ -20,6 +20,8 @@ services:
   db:
     build: ./db-service
     restart: always
+    ports:
+      - 3307:3306
 
   webserver:
     image: nginx:mainline-alpine

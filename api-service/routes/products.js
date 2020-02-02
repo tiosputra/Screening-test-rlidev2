@@ -6,25 +6,23 @@ const {
   productCreateValidationRules,
   productUpdateValidationRules
 } = require("../middlewares/validator");
-const {
-  getAllProduct,
-  createProduct,
-  getProductByCode,
-  updateProduct,
-  deleteProduct
-} = require("../controllers/products");
+const productController = require("../controllers/products");
 
 /**
  * GET /api/v1/products
  * @desc get all products
  */
-router.get("/", passport.authenticate("jwt"), getAllProduct);
+router.get("/", passport.authenticate("jwt"), productController.getAllProduct);
 
 /**
  * GET /api/v1/products/:code
  * @desc get single product with code
  */
-router.get("/:code", passport.authenticate("jwt"), getProductByCode);
+router.get(
+  "/:code",
+  passport.authenticate("jwt"),
+  productController.getProductByCode
+);
 
 /**
  * POST /api/v1/products
@@ -35,7 +33,7 @@ router.post(
   passport.authenticate("jwt"),
   productCreateValidationRules(),
   validate,
-  createProduct
+  productController.createProduct
 );
 
 /**
@@ -47,13 +45,17 @@ router.put(
   passport.authenticate("jwt"),
   productUpdateValidationRules(),
   validate,
-  updateProduct
+  productController.updateProduct
 );
 
 /**
  * DELETE /api/v1/products/:code
  * @desc delete product by code
  */
-router.delete("/:code", passport.authenticate("jwt"), deleteProduct);
+router.delete(
+  "/:code",
+  passport.authenticate("jwt"),
+  productController.deleteProduct
+);
 
 module.exports = router;

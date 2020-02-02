@@ -28,10 +28,7 @@ exports.getAllProduct = async (req, res) => {
       data: products
     });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      error: error.message
-    });
+    res.status(500).json({ error: error.message });
   }
 };
 
@@ -69,20 +66,14 @@ exports.getProductByCode = async (req, res) => {
       }
     });
     if (!product)
-      return res.status(404).json({
-        success: false,
-        message: "No product with the given code"
-      });
+      return res.status(404).json({ error: "No product with the given code" });
 
     res.status(200).json({
       success: true,
       data: product
     });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      error: error.message
-    });
+    res.status(500).json({ error: error.message });
   }
 };
 
@@ -140,20 +131,14 @@ exports.createProduct = async (req, res) => {
 
     // if product code already exists
     if (!product[1])
-      return res.status(409).json({
-        success: false,
-        error: "Product code already exists"
-      });
+      return res.status(409).json({ error: "Product code already exists" });
 
     res.status(200).json({
       success: true,
       data: product[0]
     });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      error: error.message
-    });
+    res.status(500).json({ error: error.message });
   }
 };
 
@@ -206,10 +191,9 @@ exports.updateProduct = async (req, res) => {
       }
     });
     if (!product)
-      return res.status(404).json({
-        success: false,
-        message: "No product with the given code"
-      });
+      return res
+        .status(404)
+        .json({ message: "No product with the given code" });
 
     // update product and save
     product.name = name;
@@ -223,10 +207,7 @@ exports.updateProduct = async (req, res) => {
       data: product
     });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      error: error.message
-    });
+    res.status(500).json({ error: error.message });
   }
 };
 
@@ -266,22 +247,13 @@ exports.deleteProduct = async (req, res) => {
 
     // if product with the given code not found
     if (!product)
-      return res.status(404).json({
-        success: false,
-        message: "No product with the given code"
-      });
+      return res.status(404).json({ error: "No product with the given code" });
 
     // delete product
     await product.destroy();
 
-    res.status(200).json({
-      success: true,
-      data: product
-    });
+    res.status(200).json({ success: true, data: product });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      error: error.message
-    });
+    res.status(500).json({ error: error.message });
   }
 };

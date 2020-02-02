@@ -41,16 +41,11 @@ exports.userLogin = async (req, res) => {
     const user = await User.findOne({ where: { email: email } });
 
     // if user not found return 404
-    if (!user)
-      return res
-        .status(404)
-        .json({ success: false, message: "Email didn't exists" });
+    if (!user) return res.status(404).json({ error: "Email didn't exists" });
 
     // if password doesn't match return with 401 unauthorize
     if (!bcrypt.compareSync(password, user.password))
-      return res
-        .status(401)
-        .json({ success: false, message: "Wrong password" });
+      return res.status(401).json({ error: "Wrong password" });
 
     // generate access token
     const token = jwt.sign({ id: user.id }, "secret");
@@ -58,7 +53,7 @@ exports.userLogin = async (req, res) => {
     // return with 200 status code with token
     res.status(200).json({ message: "success", accessToken: token });
   } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
+    res.status(500).json({ error: error.message });
   }
 };
 
@@ -105,9 +100,7 @@ exports.userRegister = async (req, res) => {
     // check if email already exists
     const findUser = await User.findOne({ where: { email: email } });
     if (findUser)
-      return res
-        .status(409)
-        .json({ success: false, message: "Email already exists" });
+      return res.status(409).json({ error: "Email already exists" });
 
     // generate salt and hash for password
     const salt = bcrypt.genSaltSync(10);
@@ -129,6 +122,6 @@ exports.userRegister = async (req, res) => {
       data: { name: user.name, email: user.email, accessToken: token }
     });
   } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
+    res.status(500).json({ error: error.message });
   }
 };

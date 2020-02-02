@@ -19,22 +19,23 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(passport.initialize());
 
-// swagger routes
-app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
-
 // app routes
 app.use("/api/v1/", require("./routes"));
 app.use("/api/v1/users", require("./routes/users"));
 app.use("/api/v1/products", require("./routes/products"));
 app.use("/api/v1/orders", require("./routes/orders"));
+app.use("/api/v1/orders", require("./routes/product_order"));
 
-// get swagger generated json
+// swagger routes
+app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 app.get("/api-docs.json", (req, res) => {
   res.setHeader("Content-Type", "application/json");
   res.send(swaggerSpec);
 });
 
-if (process.env.NODE_ENV === "test") PORT = 5001;
-app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
+// this command will change the port to 5123 for testing so it doesn't conflict with main app
+if (process.env.NODE_ENV === "test") PORT = 5123;
+
+app.listen(PORT, () => console.log(`Application running`));
 
 module.exports = app;

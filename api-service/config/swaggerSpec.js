@@ -25,7 +25,15 @@ const options = {
       },
       {
         name: "Products",
-        description: " API to perform CRUD operation on product"
+        description: "API for Products"
+      },
+      {
+        name: "Orders",
+        description: "API for Orders"
+      },
+      {
+        name: "ProductOrder",
+        description: "API for ProductOrder"
       }
     ]
   },
