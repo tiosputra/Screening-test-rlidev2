@@ -60,7 +60,7 @@ describe("ProductOrder API Testing", () => {
 
       productOrder = await ProductOrder.create({
         orderId: order.id,
-        quanity: 2,
+        quantity: 2,
         productId: product.id
       });
     });
@@ -201,7 +201,7 @@ describe("ProductOrder API Testing", () => {
 
       productOrder = await ProductOrder.create({
         orderId: order.id,
-        quanity: 7,
+        quantity: 7,
         productId: product.id
       });
     });
@@ -288,7 +288,7 @@ describe("ProductOrder API Testing", () => {
 
       productOrder = await ProductOrder.create({
         orderId: order.id,
-        quanity: 90,
+        quantity: 90,
         productId: product.id
       });
     });
