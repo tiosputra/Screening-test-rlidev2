@@ -8,7 +8,7 @@ const options = {
       title: "Project for screening test RLIDev2",
       version: "1.0.0"
     },
-    host: `localhost`,
+    host: `localhost:81`,
     basePath: "/api/v1",
     securityDefinitions: {
       Bearer: {
