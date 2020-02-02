@@ -83,8 +83,8 @@ describe("Product API Testing", () => {
         .set("Authorization", `Bearer ${accessToken}`)
         .end((err, res) => {
           expect(res).to.have.status(404);
-          expect(res.body.success).to.equal(false);
-          expect(res.body.message).to.equal("No product with the given code");
+          expect(res.body).to.have.property("error");
+          expect(res.body.error).to.equal("No product with the given code");
 
           done();
         });
@@ -174,7 +174,7 @@ describe("Product API Testing", () => {
         .set("Authorization", `Bearer ${accessToken}`)
         .end((err, res) => {
           expect(res).to.have.status(409);
-          expect(res.body.success).to.equal(false);
+          expect(res.body).to.have.property("error");
           expect(res.body.error).to.equal("Product code already exists");
 
           done();
@@ -215,8 +215,8 @@ describe("Product API Testing", () => {
         .set("Authorization", `Bearer ${accessToken}`)
         .end((err, res) => {
           expect(res).to.have.status(404);
-          expect(res.body.success).to.equal(false);
-          expect(res.body.message).to.equal("No product with the given code");
+          expect(res.body).to.have.property("error");
+          expect(res.body.error).to.equal("No product with the given code");
 
           done();
         });
@@ -291,8 +291,8 @@ describe("Product API Testing", () => {
         .set("Authorization", `Bearer ${accessToken}`)
         .end((err, res) => {
           expect(res).to.have.status(404);
-          expect(res.body.success).to.equal(false);
-          expect(res.body.message).to.equal("No product with the given code");
+          expect(res.body).to.have.property("error");
+          expect(res.body.error).to.equal("No product with the given code");
 
           done();
         });

@@ -191,9 +191,7 @@ exports.updateProduct = async (req, res) => {
       }
     });
     if (!product)
-      return res
-        .status(404)
-        .json({ message: "No product with the given code" });
+      return res.status(404).json({ error: "No product with the given code" });
 
     // update product and save
     product.name = name;

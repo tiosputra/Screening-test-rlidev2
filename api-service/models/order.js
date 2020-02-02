@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
   );
   Order.associate = function(models) {
     Order.belongsTo(models.User);
+    Order.hasMany(models.ProductOrder, { onDelete: "cascade" });
   };
   return Order;
 };

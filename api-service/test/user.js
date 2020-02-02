@@ -22,8 +22,6 @@ describe("User API", () => {
         .send(user)
         .end((err, res) => {
           expect(res).to.have.status(422);
-          expect(res.body).to.have.property("success");
-          expect(res.body.success).to.equal(false);
           expect(res.body).to.have.property("error");
           expect(res.body.error).to.have.lengthOf.above(0);
 
@@ -69,10 +67,8 @@ describe("User API", () => {
         .send(user)
         .end((err, res) => {
           expect(res).to.have.status(409);
-          expect(res.body).to.have.property("success");
-          expect(res.body.success).to.equal(false);
-          expect(res.body).to.have.property("message");
-          expect(res.body.message).to.equal("Email already exists");
+          expect(res.body).to.have.property("error");
+          expect(res.body.error).to.equal("Email already exists");
 
           done();
         });
@@ -119,10 +115,8 @@ describe("User API", () => {
         .send(credential)
         .end((err, res) => {
           expect(res).to.have.status(404);
-          expect(res.body).to.have.property("success");
-          expect(res.body).to.have.property("message");
-          expect(res.body.success).to.equal(false);
-          expect(res.body.message).to.equal("Email didn't exists");
+          expect(res.body).to.have.property("error");
+          expect(res.body.error).to.equal("Email didn't exists");
 
           done();
         });
@@ -140,9 +134,8 @@ describe("User API", () => {
         .send(credential)
         .end((err, res) => {
           expect(res).to.have.status(401);
-          expect(res.body.success).to.equal(false);
-          expect(res.body).to.have.property("message");
-          expect(res.body.message).to.equal("Wrong password");
+          expect(res.body).to.have.property("error");
+          expect(res.body.error).to.equal("Wrong password");
 
           done();
         });
