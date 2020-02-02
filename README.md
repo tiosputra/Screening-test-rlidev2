@@ -23,6 +23,7 @@ The test will run on container port 5001
 | CLI                                          |                             Description                             |
 | -------------------------------------------- | :-----------------------------------------------------------------: |
 | sudo docker-compose up                       |                      Run dev server on port 80                      |
+| sudo docker exec -it tioapp npm run drop     |                 undo all migration in dev database                  |
 | sudo docker exec -it tioapp npm run test     |           Run app tests (run this while container is up)            |
 | sudo docker exec -it tioapp npm run posttest | undo all migration in test database (if in any case the test fails) |
 
@@ -40,9 +41,11 @@ example "localhost:8585"
 
 Three days is a short time, but i do my best for this project. but here is a list that i want to do if i had more time:
 
-- **WRITE MORE TESTS**
-- stock management
-- nginx cert certificates
-- create custom error handling
-- improving jwt to have expire time and use custom error handling
-- create test jwt
+- **IMPROVE & WRITE MORE TESTS**
+- Stock management
+- improve data response for better output (include, though, alias, and etc.)
+- Adding nginx cert certificates on docker-compose
+- Create custom error handling
+- Improving jwt to have expire time, use custom error handling and tests
+- Improve validation rules
+- Improve documentation to be more compresensive

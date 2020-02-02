@@ -56,7 +56,15 @@ exports.getProductOrder = async (req, res) => {
       where: {
         id: productOrderId,
         orderId: orderId
-      }
+      },
+      include: [
+        {
+          model: Product
+        },
+        {
+          model: Order
+        }
+      ]
     });
 
     // if product order not found
@@ -125,10 +133,10 @@ exports.createProductOrder = async (req, res) => {
     // check if product alredy in this product order, if exists return 409 conflict else return 200
     const productOrder = await ProductOrder.findOrCreate({
       where: { orderId: orderId, productId: productId },
-      default: {
+      defaults: {
         orderId: orderId,
-        productId: productId,
-        quantity: quantity
+        quantity: quantity,
+        productId: productId
       }
     });
 
@@ -152,6 +160,7 @@ exports.createProductOrder = async (req, res) => {
  * /orders/{orderId}/products/{productOrderId}:
  *   put:
  *     summary: update product_order
+ *     description: node that productOrderId param is reference to ProductOrder resource not Product resource
  *     tags:
  *       - ProductOrder
  *     produces:
@@ -220,6 +229,7 @@ exports.updateProductOrder = async (req, res) => {
  * /orders/{orderId}/products/{productOrderId}:
  *   delete:
  *     summary: delete product_order
+ *     description: "remove product in order"
  *     tags:
  *       - ProductOrder
  *     produces:

@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": { "title": "Project for screening test RLIDev2", "version": "1.0.0" },
-  "host": "localhost:81",
+  "host": "localhost",
   "basePath": "/api/v1",
   "securityDefinitions": {
     "Bearer": { "type": "apiKey", "name": "Authorization", "in": "header" }
@@ -12,15 +12,21 @@
       "description": "API login and register user, here you can get the access token needed"
     },
     { "name": "Products", "description": "API for Products" },
-    { "name": "Orders", "description": "API for Orders" },
-    { "name": "ProductOrder", "description": "API for ProductOrder" }
+    {
+      "name": "Orders",
+      "description": "API for Orders : After creating product a user can create order just by passing access token"
+    },
+    {
+      "name": "ProductOrder",
+      "description": "API for ProductOrder : after creating order a user can create product order"
+    }
   ],
   "paths": {
     "/orders": {
       "get": {
         "summary": "get all order",
         "tags": ["Orders"],
-        "description": "THIS IS DEVELOPMENT PURPOSE ONLY, IN THE FUTURE ONLY ADMIN CAN ACCESS THIS ENDPOING",
+        "description": "THIS IS TESTING PURPOSE ONLY, IN THE FUTURE ONLY ADMIN CAN ACCESS THIS ENDPOINT",
         "produces": ["application/json"],
         "security": [{ "Bearer": [] }],
         "responses": { "200": { "desription": "OK" } }
@@ -28,7 +34,7 @@
       "post": {
         "tags": ["Orders"],
         "summary": "Create order",
-        "description": "create order for container product order",
+        "description": "create order just by passwing token in header",
         "produces": ["application/json"],
         "security": [{ "Bearer": [] }],
         "responses": { "200": { "desription": "OK" } }
@@ -95,6 +101,7 @@
       },
       "put": {
         "summary": "update product_order",
+        "description": "node that productOrderId param is reference to ProductOrder resource not Product resource",
         "tags": ["ProductOrder"],
         "produces": ["application/json"],
         "security": [{ "Bearer": [] }],
@@ -127,6 +134,7 @@
       },
       "delete": {
         "summary": "delete product_order",
+        "description": "remove product in order",
         "tags": ["ProductOrder"],
         "produces": ["application/json"],
         "security": [{ "Bearer": [] }],

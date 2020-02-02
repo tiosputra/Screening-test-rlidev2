@@ -1,4 +1,4 @@
-const { Order } = require("../models");
+const { Order, ProductOrder } = require("../models");
 
 /**
  * @swagger
@@ -20,7 +20,7 @@ const { Order } = require("../models");
 exports.getAllOrders = async (req, res) => {
   try {
     // get order data by id from param
-    const orders = await Order.findAll();
+    const orders = await Order.findAll({ include: [{ model: ProductOrder }] });
 
     // check if order data belongs to authenticated user (authorization)
     res.status(200).json({ success: true, data: orders });
@@ -78,7 +78,7 @@ exports.getOrderById = async (req, res) => {
  *     tags:
  *       - Orders
  *     summary: "Create order"
- *     description: "create order for container product order"
+ *     description: "create order just by passwing token in header"
  *     produces:
  *       - application/json
  *     security:

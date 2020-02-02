@@ -29,11 +29,13 @@ const options = {
       },
       {
         name: "Orders",
-        description: "API for Orders"
+        description:
+          "API for Orders : After creating product a user can create order just by passing access token"
       },
       {
         name: "ProductOrder",
-        description: "API for ProductOrder"
+        description:
+          "API for ProductOrder : after creating order a user can create product order"
       }
     ]
   },

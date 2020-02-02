@@ -20,6 +20,15 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(passport.initialize());
 
 // app routes
+app.get("/", (req, res) => {
+  res.send(
+    `
+      <h1>Welcome</h1>
+      to see overview of the project visit this <a href="https://github.com/karyatio/Screening-test-rlidev2" target="_blank">Github repo</a><br/>
+      visit app documentation at <a href="http://localhost:81/api-docs/" target="_blank">http://localhost:81/api-docs/</a>
+    `
+  );
+});
 app.use("/api/v1/", require("./routes"));
 app.use("/api/v1/users", require("./routes/users"));
 app.use("/api/v1/products", require("./routes/products"));

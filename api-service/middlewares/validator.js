@@ -96,7 +96,6 @@ exports.productOrderGetValidationRules = () => {
  * create product order
  */
 exports.productOrderCreateValidationRules = () => {
-  console.log("Check");
   return [
     param("orderId").exists(),
     check("productId").exists(),
