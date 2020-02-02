@@ -48,7 +48,7 @@ exports.getProductOrder = async (req, res) => {
 
     // check if user has access to this resource
     const access = await checkOrderUserAccess(orderId, req.user.id);
-    if (!access[0] === 200)
+    if (access[0] !== 200)
       return res.status(access[0]).json({ error: access[1] });
 
     // get product order by orderId and productId
@@ -189,7 +189,7 @@ exports.updateProductOrder = async (req, res) => {
 
     // check if user has access to this resource
     const access = await checkOrderUserAccess(orderId, req.user.id);
-    if (!access[0] === 200)
+    if (access[0] !== 200)
       return res.status(access[0]).json({ error: access[1] });
 
     // check product order with id.
@@ -199,7 +199,7 @@ exports.updateProductOrder = async (req, res) => {
     if (!productOrder)
       return res
         .status(404)
-        .json({ error: "product order with id doesn't exists" });
+        .json({ error: "productOrder with id doesn't exists" });
 
     // update the data
     productOrder.quantity = quantity;
@@ -247,7 +247,7 @@ exports.deleteProductOrder = async (req, res) => {
 
     // check if user has access to this resource
     const access = await checkOrderUserAccess(orderId, req.user.id);
-    if (!access[0] === 200)
+    if (access[0] !== 200)
       return res.status(access[0]).json({ error: access[1] });
 
     // check product order with id.
@@ -257,7 +257,7 @@ exports.deleteProductOrder = async (req, res) => {
     if (!productOrder)
       return res
         .status(404)
-        .json({ error: "product order with id doesn't exists" });
+        .json({ error: "productOrder with id doesn't exists" });
 
     await productOrder.destroy();
 

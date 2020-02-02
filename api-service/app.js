@@ -29,8 +29,14 @@ app.use("/api/v1/orders", require("./routes/product_order"));
 // swagger routes
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 app.get("/api-docs.json", (req, res) => {
+  // used to generate api-docs.json for swagger.json
   res.setHeader("Content-Type", "application/json");
   res.send(swaggerSpec);
+});
+
+// route not found
+app.use((req, res, next) => {
+  return res.status(404).json({ error: "Not Found" });
 });
 
 // this command will change the port to 5123 for testing so it doesn't conflict with main app

@@ -1,6 +1,11 @@
 const express = require("express");
 const passport = require("passport");
 const orderController = require("../controllers/orders");
+const {
+  validate,
+  orderGetByIdValidationRules,
+  orderDeleteValidationRules
+} = require("../middlewares/validator");
 
 const router = express.Router();
 
@@ -14,7 +19,13 @@ router.get("/", passport.authenticate("jwt"), orderController.getAllOrders);
  * GET /api/v1/orders/:id
  * @desc get order data by id
  */
-router.get("/:id", passport.authenticate("jwt"), orderController.getOrderById);
+router.get(
+  "/:id",
+  passport.authenticate("jwt"),
+  orderGetByIdValidationRules(),
+  validate,
+  orderController.getOrderById
+);
 
 /**
  * POST /api/v1/orders
@@ -30,6 +41,8 @@ router.post("/", passport.authenticate("jwt"), orderController.createOrder);
 router.delete(
   "/:id",
   passport.authenticate("jwt"),
+  orderDeleteValidationRules(),
+  validate,
   orderController.deleteOrder
 );
 

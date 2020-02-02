@@ -2,13 +2,19 @@
 
 ## Starting application
 
-To start the application run this command in your shell : sudo docker-compose up
+To start the application run this command in your shell : **sudo docker-compose up**
+
 wait for the application to run, wait until u see "Application running" message pop
 then visit localhost:81
 
+## Documentation
+
+To visit the documentation visit localhost:81/
+
 ## Running test
 
-To run application test run this command in your shell : sudo docker exec -it tioapp npm run test
+To run application test run this command in your shell : **sudo docker exec -it tioapp npm run test**
+
 note that you need to start the application first before you run the test, so the test can access mysql service.
 The test will run on container port 5001
 
@@ -22,14 +28,21 @@ The test will run on container port 5001
 
 you can access other command by : sudo docker exec -it tioapp COMMAND, where COMMAND is npm script in package.json file
 
-# PORT
-
-The app run on port 81
-
 ## Changing default port
 
-If in any case the app doesm't run because port conflic, you can change the main application port by editing docker-compose.yml file on services -> webserver -> ports to "yourport:80"
+If in any case the app doesn't run because port conflict, you can change the main application port by editing docker-compose.yml file on services -> webserver -> ports to "yourport:80"
 example : 8585:80
 
 and then change the swagger host setting in api-service/config/swaggger.json to "localhost:yourport"
 example "localhost:8585"
+
+## What next ?
+
+Three days is a short time, but i do my best for this project. but here is a list that i want to do if i had more time:
+
+- **WRITE MORE TESTS**
+- stock management
+- nginx cert certificates
+- create custom error handling
+- improving jwt to have expire time and use custom error handling
+- create test jwt

@@ -1,4 +1,4 @@
-const { check, param, validationResult } = require("express-validator");
+const { body, check, param, validationResult } = require("express-validator");
 
 /**
  * Validation middleware
@@ -67,4 +67,57 @@ exports.productUpdateValidationRules = () => {
     check("stock").isNumeric(),
     param("code").exists()
   ];
+};
+
+// Order Validation Rules
+/**
+ * Get all order
+ */
+exports.orderGetByIdValidationRules = () => {
+  return [param("id").exists()];
+};
+
+/**
+ * delete order validation
+ */
+exports.orderDeleteValidationRules = () => {
+  return [param("id").exists()];
+};
+
+// ProductOrder Validation Rules
+/**
+ * get product order by orderId and productOrderId
+ */
+exports.productOrderGetValidationRules = () => {
+  return [param("orderId").exists(), param("productOrderId").exists()];
+};
+
+/**
+ * create product order
+ */
+exports.productOrderCreateValidationRules = () => {
+  console.log("Check");
+  return [
+    param("orderId").exists(),
+    check("productId").exists(),
+    check("quantity").exists()
+  ];
+};
+
+/**
+ * update product order
+ */
+exports.productOrderUpdateValidationRules = () => {
+  return [
+    param("orderId").exists(),
+    param("productOrderId").exists(),
+    check("quantity").exists()
+  ];
+};
+
+/**
+ * delete product order
+ */
+exports.productOrderDeleteValidationRules = () => {
+  return [param("orderId").exists(), param("productOrderId").exists()];
 };

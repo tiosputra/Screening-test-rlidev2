@@ -1,6 +1,13 @@
 const express = require("express");
 const passport = require("passport");
 const productOrderController = require("../controllers/product_order");
+const {
+  validate,
+  productOrderGetValidationRules,
+  productOrderCreateValidationRules,
+  productOrderUpdateValidationRules,
+  productOrderDeleteValidationRules
+} = require("../middlewares/validator");
 
 const router = express.Router();
 
@@ -11,6 +18,8 @@ const router = express.Router();
 router.get(
   "/:orderId/products/:productOrderId",
   passport.authenticate("jwt"),
+  productOrderGetValidationRules(),
+  validate,
   productOrderController.getProductOrder
 );
 
@@ -21,6 +30,8 @@ router.get(
 router.post(
   "/:orderId/products/",
   passport.authenticate("jwt"),
+  productOrderCreateValidationRules(),
+  validate,
   productOrderController.createProductOrder
 );
 
@@ -31,6 +42,8 @@ router.post(
 router.put(
   "/:orderId/products/:productOrderId",
   passport.authenticate("jwt"),
+  productOrderUpdateValidationRules(),
+  validate,
   productOrderController.updateProductOrder
 );
 
@@ -41,6 +54,8 @@ router.put(
 router.delete(
   "/:orderId/products/:productOrderId",
   passport.authenticate("jwt"),
+  productOrderDeleteValidationRules(),
+  validate,
   productOrderController.deleteProductOrder
 );
 

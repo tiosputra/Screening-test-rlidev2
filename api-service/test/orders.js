@@ -57,20 +57,19 @@ describe("Orders API Testing", () => {
   describe("GET /orders/{id}", () => {
     let order = null;
 
-    before(() => {
-      User.findOne({ where: { email: user.email } }).then(newUser => {
-        Order.create({ userId: newUser.id }).then(newOrder => {
-          order = newOrder;
-        });
-      });
+    before(async function() {
+      const findUser = await User.findOne({ where: { email: user.email } });
+      order = await Order.create({ userId: findUser.id });
     });
 
     it("it should not get order with invalid id", done => {
       chai
         .request(server)
-        .get("/api/v1/orders/888")
+        .get("/api/v1/orders/123")
         .set("Authorization", `Bearer ${accessToken}`)
         .end((err, res) => {
+          if (err) done(err);
+
           expect(res).to.have.status(404);
           expect(res.body).to.have.property("error");
 
@@ -96,12 +95,6 @@ describe("Orders API Testing", () => {
   });
 
   describe("POST /orders", () => {
-    before(() => {
-      User.findOne({ where: { email: user.email } }).then(newUser => {
-        user = newUser;
-      });
-    });
-
     it("it should create order", done => {
       chai
         .request(server)
@@ -121,13 +114,10 @@ describe("Orders API Testing", () => {
   describe("DELETE /orders/{id}", () => {
     let order = null;
 
-    before(done => {
-      User.findOne({ where: { email: user.email } }).then(newUser => {
-        Order.create({ userId: newUser.id }).then(newOrder => {
-          order = newOrder;
-          done();
-        });
-      });
+    before(async function() {
+      const findUser = await User.findOne({ where: { email: user.email } });
+
+      order = await Order.create({ userId: findUser.id });
     });
 
     it("it should not delete order with invalid order id", done => {
