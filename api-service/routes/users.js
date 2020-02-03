@@ -5,18 +5,30 @@ const {
   userLoginValidationRules,
   userRegisterValidationRules
 } = require("../middlewares/validator");
-const { userLogin, userRegister } = require("../controllers/users");
+const userController = require("../controllers/users");
 
 /**
  * POST api/v1/users/login
  * @desc user login
  */
-router.post("/login", userLoginValidationRules(), validate, userLogin);
+router.post(
+  "/login",
+  userLoginValidationRules(),
+  validate,
+  userController.userLogin
+);
 
 /**
  * POST api/users/register
  * @desc registering user
  */
-router.post("/register", userRegisterValidationRules(), validate, userRegister);
+router.post(
+  "/register",
+  userRegisterValidationRules(),
+  validate,
+  userController.userRegister
+);
+
+router.get("/example", userController.userExample);
 
 module.exports = router;

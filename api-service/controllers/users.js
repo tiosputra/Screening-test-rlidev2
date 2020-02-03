@@ -1,6 +1,8 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-const { User } = require("../models");
+const { User, Example } = require("../models");
+const db = require("../models");
+const { sequelize } = db;
 
 /**
  * @swagger
@@ -93,6 +95,8 @@ exports.userLogin = async (req, res) => {
  *         description: register
  */
 exports.userRegister = async (req, res) => {
+  const t = await sequelize.transaction();
+
   try {
     // get data
     const { email, name, password } = req.body;
@@ -106,12 +110,23 @@ exports.userRegister = async (req, res) => {
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(password, salt);
 
+    // adding example
+    await Example.create({ exampleName: name }, { transaction: t });
+
+    // if user name is error then rollback transaction
+    if (name === "error") throw new Error("trying transaction error");
+
     // create user
-    const user = await User.create({
-      email,
-      name,
-      password: hash
-    });
+    const user = await User.create(
+      {
+        email,
+        name,
+        password: hash
+      },
+      { transaction: t }
+    );
+
+    await t.commit();
 
     // generate access token
     const token = jwt.sign({ id: user.id }, "secret");
@@ -121,6 +136,20 @@ exports.userRegister = async (req, res) => {
       success: true,
       data: { name: user.name, email: user.email, accessToken: token }
     });
+  } catch (error) {
+    await t.rollback();
+    res.status(500).json({ error: error.message });
+  }
+};
+
+/**
+ * endpoint to see data in example /**Testing purpose only
+ */
+exports.userExample = async (_req, res) => {
+  try {
+    const example = await Example.findAll();
+
+    res.status(200).json({ success: true, data: example });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
