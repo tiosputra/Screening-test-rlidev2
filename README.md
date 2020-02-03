@@ -6,9 +6,9 @@ To start the application run this command in your shell : **sudo docker-compose 
 The application will do migration automaticaly.
 wait for the application to run, wait until u see "Application running" message pop then visit localhost:81
 
-## Documentation
+## Project Documentation
 
-To visit the documentation visit localhost:81/
+After running the app visit the documentation at http://localhost:81/api-docs/
 
 ## Running test
 
