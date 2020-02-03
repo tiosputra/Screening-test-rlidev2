@@ -44,7 +44,7 @@ app.get("/api-docs.json", (req, res) => {
 });
 
 // route not found
-app.use((req, res, next) => {
+app.use((req, res) => {
   return res.status(404).json({ error: "Not Found" });
 });
 

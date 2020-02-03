@@ -188,7 +188,7 @@ describe("Product API Testing", () => {
    *  - update product with incomplete parameter
    *  - update product with complete parameter
    */
-  describe("/PUT product/{code}", done => {
+  describe("/PUT product/{code}", () => {
     let product = {
       code: "TS002",
       name: "Mouse SLEC",
@@ -271,7 +271,7 @@ describe("Product API Testing", () => {
    *  - delete product with invalid code
    *  - delete product with valid code
    */
-  describe("/DELETE product/{code}", done => {
+  describe("/DELETE product/{code}", () => {
     let product = {
       code: "TS004",
       name: "Mousepad Razer",
