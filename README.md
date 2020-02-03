@@ -17,6 +17,19 @@ To run application test run this command in your shell : **sudo docker exec -it 
 note that you need to start the application first before you run the test, so the test can access mysql service.
 The test will run on container port 5001
 
+## What next ?
+
+Three days is a short time, but i do my best for this project. but here is a list that i want to do if i had more time:
+
+- **IMPROVE & WRITE MORE TESTS**
+- Stock management
+- improve data response for better output (include, though, alias, and etc.)
+- Adding nginx cert certificates on docker-compose
+- Create custom error handling
+- Improving jwt to have expire time, use custom error handling and tests
+- Improve validation rules
+- Improve documentation to be more compresensive
+
 ### Common command that i use
 
 | CLI                                          |                             Description                             |
@@ -35,16 +48,3 @@ example : 8585:80
 
 and then change the swagger host setting in api-service/config/swaggger.json to "localhost:yourport"
 example "localhost:8585"
-
-## What next ?
-
-Three days is a short time, but i do my best for this project. but here is a list that i want to do if i had more time:
-
-- **IMPROVE & WRITE MORE TESTS**
-- Stock management
-- improve data response for better output (include, though, alias, and etc.)
-- Adding nginx cert certificates on docker-compose
-- Create custom error handling
-- Improving jwt to have expire time, use custom error handling and tests
-- Improve validation rules
-- Improve documentation to be more compresensive
